@@ -156,7 +156,8 @@ const Google = styled.button`
     height:56px;
     width:100%;
     border-radius:28px;
-    box-shadow:inset 0 0 0 1px rgb(0 0 0/ 60%), inset 0 0 0 2px rgb(0 0 0 /0%) inset 0 0 0 1px rgb(0 0 0 / 0%);
+    box-shadow:inset 0 0 0 1px rgb(0 0 0/ 60%),
+    inset 0 0 0 2px rgb(0 0 0 /0%) inset 0 0 0 1px rgb(0 0 0 / 0%);
     vertical-align: middle;
     transition-duration: 167ms;
     font-size: 20px;
