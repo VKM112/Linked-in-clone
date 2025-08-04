@@ -1,4 +1,7 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
+import {connect} from "react-redux";
+import { signOutAPI } from '../actions/Index';
+
 import li from '../assets/li icon.png'
 import search from '../assets/search-icon.svg'
 import homei from '../assets/nav-home.svg'
@@ -8,7 +11,7 @@ import work from '../assets/nav-work.svg'
 import messaging from '../assets/nav-messaging.svg'
 import jobs from '../assets/nav-jobs.svg'
 import down from '../assets/down-icon.svg'
-import user from '../assets/user.svg'
+import usericon from '../assets/user.svg'
 
 const Header = (props) => {
     return (
@@ -62,15 +65,23 @@ const Header = (props) => {
 
                         <User>
                             <a>
-                                <img src={user} alt="" />
-                                <span>Me</span>
+                                {props.user && props.user.photoURL ? (
+                                    <img src={props.user.photoURL}
+                                     alt="" 
+                                     style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+                                     />
+                                ) : (
+                                    <img src={usericon} alt="" />)}
+                                <span>
+                                    Me
                                 <img src={down} alt="" />
+                                </span>
                             </a>
 
-                            <SignOut>
+                            <SignOut onClick={()=>props.signOut()}>
                                 <a>Sign Out</a>
                             </SignOut>
-                        </User> 
+                        </User>
                         <Work>
                             <a>
                                 <img src={work} alt=''></img>
@@ -229,7 +240,7 @@ const SignOut = styled.div`
     display: none;
 `;
 
-const User=styled(NavList)`
+const User = styled(NavList)`
     a > svg{
         width:24px;
         border-radius: 50%;
@@ -255,10 +266,18 @@ const User=styled(NavList)`
     }
 `;
 
-const Work=styled(User)`
+const Work = styled(User)`
     border-left: 1px solid rgba(0, 0, 0, 0.08);
 `;
-    
 
+const mapStateToProps = (state) => {
+    return{
+        user: state.userState.user,
+    };
+};
 
-export default Header;
+const mapDispatchToProps = (dispatch) => ({
+    signOut: () =>dispatch(signOutAPI()),
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Header)
