@@ -1,4 +1,8 @@
 import styled from "styled-components";
+import PostModal from "./PostModal"
+import { useState } from "react";
+
+
 import userIcon from "../assets/user.svg"
 import imageIcon from "../assets/image.png"
 import videoIcon from "../assets/movie.png"
@@ -14,12 +18,19 @@ import commentIcon from "../assets/comment.png"
 import sendIcon from "../assets/send.png"
 
 const Main = (props) => {
+  const [showModal, setShowModal] = useState("close");
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setShowModal(showModal === "open" ? "close" : "open");
+  };
+
   return (
     <Container>
       <ShareBox>
         <div>
           <img src={userIcon} alt="" />
-          <button>Start a post</button>
+          <button type="button" onClick={handleClick}>Start a post</button>
         </div>
 
         <div>
@@ -99,7 +110,9 @@ const Main = (props) => {
           </SocialActions>
         </Article>
       </div>
-
+      {showModal === "open" && (
+        <PostModal showModal={showModal} handleClick={handleClick} />
+      )}
     </Container>
   )
 };
