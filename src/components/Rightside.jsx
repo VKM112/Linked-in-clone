@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import rightSide from "../assets/right-icon.svg"
+import banner from "../assets/banner.png" 
 
 const Rightside = (props) => {
   return (
@@ -32,12 +34,12 @@ const Rightside = (props) => {
 
         <Recommendation>
           View all recommendations
-          <img src="/images/right-icon.svg" alt="" />
+          <img src={rightSide} alt="" />
         </Recommendation>
       </FollowCard>
       <BannerCard>
         <img
-          src="https://static-exp1.licdn.com/scds/common/u/images/promo/ads/li_evergreen_jobs_ad_300x250_v1.jpg"
+          src={banner}
           alt=""
         />
       </BannerCard>
@@ -87,7 +89,7 @@ const FeedList = styled.ul`
       background-color: transparent;
       color: rgba(0, 0, 0, 0.6);
       box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6);
-      padding: 12px;
+      padding: 16px;
       align-items: center;
       border-radius: 15px;
       box-sizing: border-box;
