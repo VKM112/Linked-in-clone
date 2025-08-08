@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { useState } from "react";
 import ReactPlayer from "react-player";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+import { getFirestore, Timestamp } from "firebase/firestore";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { postArticleAPI } from "../actions";
 
 
 import closeIcon from "../assets/close.png"
@@ -30,7 +33,25 @@ const PostModal = (props) => {
         setShareImage("");
         setVideoLink("");
         setAssetArea(area);
-    }
+    };
+
+    const postArticle = (e) => {
+        console.log("postmalone dicl")
+        e.preventDefault();
+        if (e.target !== e.currentTarget) {
+            return;
+        }
+
+        const payload = {
+            image: shareImage,
+            video: videoLink,
+            user: props.user,
+            description: editorText,
+            timestamp: Timestamp.now(),
+        }
+        props.postArticle(payload);
+        reset(e);
+    };
 
     const reset = (e) => {
         setEditorText("");
@@ -61,8 +82,8 @@ const PostModal = (props) => {
                         <SharedContent>
                             <UserInfo>
                                 {props.user.photoURL ? (
-                                    <img src={props.user.photoURL}/>
-                                ):(
+                                    <img src={props.user.photoURL} />
+                                ) : (
                                     <img src={userIcon} alt="" />)
                                 }
                                 <span>{props.user.displayName}</span>
@@ -136,7 +157,9 @@ const PostModal = (props) => {
                                 </AssetButton>
                             </ShareComment>
 
-                            <PostButton disabled={!editorText ? true : false}>
+                            <PostButton
+                                disabled={!editorText ? true : false}
+                                onClick={(event) => postArticle(event)}>
                                 Post
                             </PostButton>
                         </ShareCreation>
@@ -292,13 +315,13 @@ const UploadImage = styled.div`
     }
 `;
 
-const mapStateToProps=(state)=>{
-  return {
-    user:state.userState.user,
-  }
+const mapStateToProps = (state) => {
+    return {
+        user: state.userState.user,
+    }
 }
 
-const mapDispatchToProps=(dispatch)=>({
-
+const mapDispatchToProps = (dispatch) => ({
+    postArticle: (payload) => dispatch(postArticleAPI(payload)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostModal)
